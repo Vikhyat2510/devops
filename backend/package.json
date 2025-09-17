@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "main": "server.js",
-  "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
-  },
+"scripts": {
+  "dev": "nodemon server.js",
+  "start": "node server.js",
+  "test": "echo \"No tests yet\" "
+}
+,
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",

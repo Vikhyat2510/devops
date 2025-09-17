@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        ACR_NAME = "acrdocker1.azurecr.io" 
+        ACR_NAME = "acrdocker1.azurecr.io" // Your ACR login server
+        ACR_USER = "acrdocker1"           // Your ACR username
+        ACR_PASS = "8lx+S4w1dUtxFgNLHrC1hL6/8OgYaHy7P1sFpqxnk9+ACRBpi+q4" // Your ACR password
     }
 
     stages {
@@ -35,11 +37,16 @@ pipeline {
         stage('Build & Push Docker - Backend') {
             steps {
                 dir('backend') {
-                    withCredentials([usernamePassword(credentialsId: 'acr-credentials', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
-                        sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
-                    }
+                    // Login to ACR
+                    sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
+
+                    // Build Docker image
                     sh 'docker build -t backend:latest .'
+
+                    // Tag image for ACR
                     sh 'docker tag backend:latest $ACR_NAME/backend:latest'
+
+                    // Push to ACR
                     sh 'docker push $ACR_NAME/backend:latest'
                 }
             }
@@ -48,9 +55,7 @@ pipeline {
         stage('Build & Push Docker - Frontend') {
             steps {
                 dir('frontend') {
-                    withCredentials([usernamePassword(credentialsId: 'acr-credentials', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
-                        sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
-                    }
+                    sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
                     sh 'docker build -t frontend:latest .'
                     sh 'docker tag frontend:latest $ACR_NAME/frontend:latest'
                     sh 'docker push $ACR_NAME/frontend:latest'
@@ -61,9 +66,7 @@ pipeline {
         stage('Build & Push Docker - Database') {
             steps {
                 dir('database') {
-                    withCredentials([usernamePassword(credentialsId: 'acr-credentials', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASS')]) {
-                        sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
-                    }
+                    sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
                     sh 'docker build -t database:latest .'
                     sh 'docker tag database:latest $ACR_NAME/database:latest'
                     sh 'docker push $ACR_NAME/database:latest'

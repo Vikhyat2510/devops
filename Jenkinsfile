@@ -78,7 +78,7 @@ pipeline {
             steps {
                 echo "Next: Use kubectl apply -f k8s/ to deploy backend, frontend, database"
                 // Example:
-                // sh 'kubectl apply -f k8s/backend-deployment.yaml'
+                // sh 'kubectl apply -f k8s/backend-deployment.yaml'    
                 // sh 'kubectl apply -f k8s/frontend-deployment.yaml'
                 // sh 'kubectl apply -f k8s/database-deployment.yaml'
             }

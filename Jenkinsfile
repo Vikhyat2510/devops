@@ -64,7 +64,7 @@ pipeline {
         }
   
         // stage('Build & Push Docker - Database') {
-        //     steps {
+        //     steps {   
         //         dir('database') {
         //             sh 'docker login $ACR_NAME -u $ACR_USER -p $ACR_PASS'
         //             sh 'docker build -t database:latest .'
